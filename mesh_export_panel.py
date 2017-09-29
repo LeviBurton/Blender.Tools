@@ -80,37 +80,32 @@ class MeshExportPanel_export(bpy.types.Operator):
                 path = bpy.path.abspath(bpy.context.scene.conf_path + object.data.name + ".fbx")
                 
                 if context.scene.engine_export_enum == 'Unity':
-                    bpy.ops.transform.rotate(value = -1.5708, axis = (1, 0, 0), constraint_axis = (True, False, False), constraint_orientation = 'GLOBAL')
-                    bpy.ops.transform.rotate(value = -3.1416, axis = (0, 1, 0), constraint_axis = (False, True, False), constraint_orientation = 'GLOBAL')
-                    bpy.ops.object.transform_apply(rotation = True)
+               
+                    bpy.ops.export_scene.fbx(filepath=path,
+                        use_default_take=False,
+                        use_selection=True,
+                        use_anim_action_all=False,
+                        use_mesh_edges=True,
+                        bake_space_transform=True,
+                        axis_up="Y",
+                        axis_forward="Z",
+                        object_types={'MESH'})
+                    
                     print ("Exporting to Unity")
                 
                 elif context.scene.engine_export_enum == 'UE4':
-                    #bpy.ops.transform.rotate(value = -1.5708, axis = (0, 0, 1), constraint_axis = (False, False, True), constraint_orientation = 'GLOBAL')
-                    #bpy.ops.transform.rotate(value = -3.1416, axis = (0, 0, 1), constraint_axis = (False, False, True), constraint_orientation = 'GLOBAL')
-                    #bpy.ops.object.transform_apply(rotation = True)
+                    bpy.ops.export_scene.fbx(filepath=path,
+                        use_default_take=False,
+                        use_selection=True,
+                        use_anim_action_all=False,
+                        use_mesh_edges=True,
+                        #bake_space_transform=True,
+                        #axis_up="X",
+                        #axis_forward="Z",
+                        object_types={'MESH'})
+                    
                     print ("Exporting to UE4")
             
-                bpy.ops.export_scene.fbx(filepath=path,
-                    use_default_take=False,
-                    use_selection=True,
-                    use_anim_action_all=False,
-                    use_mesh_edges=True,
-                    #bake_space_transform=True,
-                    #axis_up="X",
-                    #axis_forward="Z",
-                    object_types={'MESH'})
-                
-                if context.scene.engine_export_enum == 'Unity':
-                    bpy.ops.transform.rotate(value = 1.5708, axis = (1, 0, 0), constraint_axis = (True, False, False), constraint_orientation = 'GLOBAL')
-                    bpy.ops.transform.rotate(value = 3.1416, axis = (0, 0, 1), constraint_axis = (False, False, True), constraint_orientation = 'GLOBAL')
-                    bpy.ops.object.transform_apply(rotation = True)
-                
-                elif context.scene.engine_export_enum == 'UE4':
-                    #bpy.ops.transform.rotate(value = 1.5708, axis = (0, 0, 1), constraint_axis = (False, False, True), constraint_orientation = 'GLOBAL')
-                    #bpy.ops.transform.rotate(value = -3.1416, axis = (0, 0, 1), constraint_axis = (False, False, True), constraint_orientation = 'GLOBAL')
-                    #bpy.ops.object.transform_apply(rotation = True)
-                    print ("Exporting to UE4")
                     
             for foo in bpy.context.scene.objects:
                 foo.select = False      
